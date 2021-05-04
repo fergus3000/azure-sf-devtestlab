@@ -56,7 +56,7 @@
         },
         "appPort2": {
             "type": "int",
-            "defaultValue": 443,
+            "defaultValue": 5050,
             "minValue": 1,
             "metadata": {
                 "description": "Public accessible application port #2."
