@@ -176,8 +176,8 @@
     "subnet0Name": "Subnet-0",
     "subnet0Prefix": "10.0.0.0/24",
     "subnet0Ref": "[resourceId('Microsoft.Network/virtualNetworks/subnets/', variables('virtualNetworkName'), variables('subnet0Name'))]",
-    "supportLogStorageAccountName": "[concat( uniqueString(resourceGroup().id),'2')]",
-    "applicationDiagnosticsStorageAccountName": "[concat(uniqueString(resourceGroup().id), '3' )]",
+    "supportLogStorageAccountName": "[concat(parameters('clusterName'), '-supportlog')]",
+    "applicationDiagnosticsStorageAccountName": "[concat(parameters('clusterName'), '-appdiag')]",
     "lbName": "[concat('LB','-', parameters('clusterName'),'-',variables('vmNodeType0Name'))]",
     "lbIPConfig0": "[resourceId('Microsoft.Network/loadBalancers/frontendIPConfigurations/', variables('lbName'), 'LoadBalancerIPConfig')]",
     "lbPoolID0": "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', variables('lbName'), 'LoadBalancerBEAddressPool')]",
@@ -621,9 +621,9 @@
     {
       "apiVersion": "2018-06-01",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(parameters('clusterName'), '/', 'customScript')]",
+      "name": "[concat(variables('vmNodeType0Name'), '/', 'customScript')]",
       "location": "[resourceGroup().location]",
-      "dependsOn": ["[parameters('clusterName')]"],
+      "dependsOn": ["[variables('vmNodeType0Name')]"],
       "tags": {
           "displayName": "config-app"
       },

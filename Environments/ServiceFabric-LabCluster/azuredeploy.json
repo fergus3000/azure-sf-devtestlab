@@ -2,6 +2,13 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "sfclustername": {
+            "type": "string",
+            "minLength": 1,
+            "metadata": {
+                "description": "name of service fabric cluster "
+            }
+        },
         "clusterOS": {
             "type": "string",
             "allowedValues": [
@@ -64,7 +71,7 @@
         },
         "vstsServerUrl": {
             "type": "string",
-            "defaultValue": "xx",
+            "defaultValue": "https://",
             "metadata": {
                 "description": "vsts server url"
             }
@@ -85,7 +92,7 @@
         },
         "vstsAgentName": {
             "type": "string",
-            "defaultValue": "xx",
+            "defaultValue": "xxAgent",
             "metadata": {
                 "description": "Name of vsts agent"
             }
@@ -96,16 +103,24 @@
             "metadata": {
                 "description": "The VM size to use for cluster nodes."
             }
+        },
+        "nodeCount": {
+            "type": "int",
+            "defaultValue": 3,
+            "minValue": 3,
+            "metadata": {
+                "description": "Number of vms in scaleset."
+            }
         }
     },
     "variables": {
         "quickstartRepoRoot": "https://raw.githubusercontent.com/fergus3000/azure-sf-devtestlab/master/Environments/ScaleSetVms/",
-        "clusterName": "[concat('sf-', toLower(uniqueString(resourceGroup().name)))]",
-        "vaultName": "[concat('kv-', toLower(uniqueString(resourceGroup().name)))]",
+        "clusterName": "[parameters('sfclustername')]",
+        "vaultName": "[concat('kv-', parameters('sfclustername'))]",
         "vaultSecret": "ClusterCertificate",
         "loadBalancedAppPort1": "[parameters('appPort1')]",
         "loadBalancedAppPort2": "[parameters('appPort2')]",
-        "nt0InstanceCount": 5
+        "nt0InstanceCount": "[parameters('nodeCount')]"
     },
     "resources": [
         {
