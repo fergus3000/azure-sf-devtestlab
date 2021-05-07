@@ -118,7 +118,7 @@
     },
     "nodeDataDrive": {
       "type": "string",
-      "defaultValue": "Temp",
+      "defaultValue": "OS",
       "allowedValues": [
         "OS",
         "Temp"
@@ -131,11 +131,35 @@
       "type": "string",
       "defaultValue": "Standard_D2s_v3",
       "metadata": {
-        "description": "The VM size to use for cluster nodes."
+          "description": "SKU for the VMSS nodes"
+        }
+      },
+      "vstsServerUrl": {
+        "type": "string",
+        "metadata": {
+          "description": "The vsts url for the organization"
+        }
+      },
+      "vstsPersonalAccessToken": {
+        "type": "string",
+        "metadata": {
+          "description": "The PAT for vsts"
+        }
+      },
+      "vstsAgentPoolName": {
+        "type": "string",
+        "metadata": {
+          "description": "The agent pool the agent will be registered in"
+        }
+      },
+      "vstsAgentName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the agent"
+        }
       }
-    }
-  },
-  "variables": {
+    },
+    "variables": {
     "dnsName": "[parameters('clusterName')]",
     "vmName": "vm",
     "virtualNetworkName": "VNet",
@@ -464,7 +488,7 @@
                     "clusterEndpoint": "[reference(parameters('clusterName')).clusterEndpoint]",
                     "nodeTypeRef": "[variables('vmNodeType0Name')]",
                     "dataPath": "[concat(if(equals(parameters('nodeDataDrive'), 'OS'), 'C', 'D'), ':\\\\SvcFab')]",
-                    "durabilityLevel": "Silver",
+                    "durabilityLevel": "Bronze",
                     "nicPrefixOverride": "[variables('subnet0Prefix')]",
                     "certificate": {
                       "thumbprint": "[parameters('certificateThumbprint')]",
@@ -603,24 +627,6 @@
       "tags": {
           "displayName": "config-app"
       },
-      // "properties": {
-      //     "publisher": "Microsoft.Compute",
-      //     "type": "CustomScriptExtension",
-      //     "typeHandlerVersion": "1.10",
-      //     "autoUpgradeMinorVersion": true,
-      //     "settings": {
-      //         "timestamp":123456789
-      //     },
-      //     "protectedSettings": {
-      //         "commandToExecute": "myExecutionCommand",
-      //         "storageAccountName": "myStorageAccountName",
-      //         "storageAccountKey": "myStorageAccountKey",
-      //         "managedIdentity" : {},
-      //         "fileUris": [
-      //             "script location"
-      //         ]
-      //     }
-      // }
         "properties": {
           "publisher": "Microsoft.Compute",
           "settings": {
@@ -628,13 +634,13 @@
               "https://vstsagentpackage.azureedge.net/agent/2.177.1/vsts-agent-win-x64-2.177.1.zip",
               "https://packages.couchbase.com/releases/6.5.1/couchbase-server-community_6.5.1-windows_amd64.msi",
               "https://download.visualstudio.microsoft.com/download/pr/3366b2e6-ed46-48ae-bf7b-f5804f6ee4c9/186f681ff967b509c6c9ad31d3d343da/dotnet-sdk-3.1.404-win-x64.exe",
-              "https://raw.githubusercontent.com/fergus3000/azure-quickstart-templates/master/service-fabric-secure-cluster-5-node-1-nodetype/run-scripts.ps1"
+              "https://raw.githubusercontent.com/fergus3000/azure-quickstart-templates/master/service-fabric-secure-cluster-5-node-1-nodetype/scripts/run-scripts.ps1"
             ]
           },
           "typeHandlerVersion": "1.10",
           "autoUpgradeMinorVersion": true,
           "protectedSettings": {
-            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File run-scripts.ps1 -sampleParam ', parameters('clusterName'))]"
+            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File run-scripts.ps1 -ServerUrl ', parameters('vstsServerUrl'), ' -PersonalAccessToken ', parameters('vstsPersonalAccessToken'), ' -PoolName ', parameters('vstsAgentPoolName'), ' -AgentName ', parameters('vstsAgentName'), ' -numClusterNodes ', parameters('nt0InstanceCount'))]"
           },
           "type": "CustomScriptExtension"
         }
