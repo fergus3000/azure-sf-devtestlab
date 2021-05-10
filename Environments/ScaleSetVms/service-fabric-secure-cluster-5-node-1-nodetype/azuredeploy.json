@@ -451,6 +451,9 @@
       "apiVersion": "2020-06-01",
       "name": "[variables('vmNodeType0Name')]",
       "location": "[parameters('location')]",
+      "identity": {
+          "type": "systemAssigned"
+      },
       "sku": {
         "name": "[variables('vmNodeType0Size')]",
         "capacity": "[parameters('nt0InstanceCount')]",
