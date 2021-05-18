@@ -161,7 +161,7 @@
     },
     "variables": {
     "dnsName": "[parameters('clusterName')]",
-    "vmName": "vm",
+    "vmName": "glr-sf",
     "virtualNetworkName": "VNet",
     "addressPrefix": "10.0.0.0/16",
     "nicName": "NIC",
@@ -636,6 +636,7 @@
             "https://download.visualstudio.microsoft.com/download/pr/3366b2e6-ed46-48ae-bf7b-f5804f6ee4c9/186f681ff967b509c6c9ad31d3d343da/dotnet-sdk-3.1.404-win-x64.exe",
             "https://raw.githubusercontent.com/fergus3000/azure-sf-devtestlab/master/Environments/ScaleSetVms/service-fabric-secure-cluster-5-node-1-nodetype/scripts/dotnet-install.ps1",
             "https://raw.githubusercontent.com/fergus3000/azure-sf-devtestlab/master/Environments/ScaleSetVms/service-fabric-secure-cluster-5-node-1-nodetype/scripts/install-couchbase.ps1",
+			"https://raw.githubusercontent.com/fergus3000/azure-sf-devtestlab/master/Environments/ScaleSetVms/service-fabric-secure-cluster-5-node-1-nodetype/scripts/choco-install.ps1",
             "https://raw.githubusercontent.com/fergus3000/azure-sf-devtestlab/master/Environments/ScaleSetVms/service-fabric-secure-cluster-5-node-1-nodetype/scripts/install-buildagent.ps1",
             "https://raw.githubusercontent.com/fergus3000/azure-sf-devtestlab/master/Environments/ScaleSetVms/service-fabric-secure-cluster-5-node-1-nodetype/scripts/run-scripts.ps1"
           ]
