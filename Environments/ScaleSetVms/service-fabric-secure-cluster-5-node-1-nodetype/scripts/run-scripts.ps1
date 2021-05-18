@@ -25,6 +25,8 @@ Start-Transcript -Path 'c:\logs\run-scripts-ps1-transcript.txt'
 
 & ($PSScriptRoot + "\install-couchbase.ps1") -numClusterNodes $numClusterNodes
 
+& ($PSScriptRoot + "\choco-install.ps1")
+
 Write-Host "running install-buildagent.ps1 "
 Get-Date
 
